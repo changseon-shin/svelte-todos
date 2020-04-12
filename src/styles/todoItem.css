@@ -1,0 +1,12 @@
+.todoItem {
+    margin: 15px 0;
+}
+label {
+    margin-left: 10px;
+}
+label.done {
+    text-decoration: line-through;
+}
+button {
+    margin-left: 15px;
+}

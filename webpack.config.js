@@ -6,7 +6,7 @@ const prod = mode === 'production';
 
 module.exports = {
 	entry: {
-		bundle: ['./src/main.js']
+		bundle: ['./src/main.ts']
 	},
 	resolve: {
 		alias: {
@@ -23,12 +23,23 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.svelte$/,
+				test: /\.ts$/,
+				use: {
+					loader: 'ts-loader'
+				}
+			},
+			{
+				test: /\.(html|svelte)$/,
 				use: {
 					loader: 'svelte-loader',
 					options: {
 						emitCss: true,
-						hotReload: true
+						hotReload: true,
+						preprocess: require('svelte-preprocess')({
+							typescript: {
+								transpileOnly: true
+							}
+						})
 					}
 				}
 			},

@@ -1,48 +1,42 @@
-<script>
-    import {storeTodos} from '../stores';
+<script lang="typescript">
+    import { storeTodos } from "../stores.ts";
     export let todo;
 
-    import {createEventDispatcher} from 'svelte';
+    import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
-    const toggleTodo = () => {
-        dispatch('toggle', {id: todo.id});
+    const toggleTodo = (): void => {
+        dispatch("toggle", { id: todo.id });
     };
 
-    const removeTodo = () => {
-        dispatch('remove', {id: todo.id});
+    const removeTodo = (): void => {
+        dispatch("remove", { id: todo.id });
     };
 
-    const toggleStoreTodo = () => {
-        storeTodos.update(storeTodos => storeTodos.map(storeTodo => ({...storeTodo, done: storeTodo.id === todo.id ? !todo.done : todo.done})));
+    const toggleStoreTodo = (): void => {
+        storeTodos.update(storeTodos =>
+            storeTodos.map(storeTodo => ({
+                ...storeTodo,
+                done: storeTodo.id === todo.id ? !storeTodo.done : storeTodo.done
+            }))
+        );
     };
 
-    const removeStoreTodo = () => {
-        storeTodos.update(storeTodos => storeTodos.filter(storeTodo => storeTodo.id !== todo.id));
+    const removeStoreTodo = (): void => {
+        storeTodos.update(storeTodos =>
+            storeTodos.filter(storeTodo => storeTodo.id !== todo.id)
+        );
     };
 </script>
 
-<li class="todoItem">
-<!--    <input type="checkbox" bind:checked={todo.done} name={todo.id}>-->
-<!--    <label for={todo.id} on:click={toggleTodo} class={todo.done && 'done'}>{todo.content}</label>-->
-<!--    <button on:click={removeTodo}>X</button>-->
+<template>
+    <li class="todoItem">
+        <input type="checkbox" bind:checked={todo.done} name={todo.id} />
+        <label for={todo.id} on:click={toggleStoreTodo} class={todo.done && 'done'}>
+            {todo.content}
+        </label>
+        <button on:click={removeStoreTodo}>X</button>
+    </li>
+</template>
 
-    <input type="checkbox" bind:checked={todo.done} name={todo.id}>
-    <label for={todo.id} on:click={toggleStoreTodo} class={todo.done && 'done'}>{todo.content}</label>
-    <button on:click={removeStoreTodo}>X</button>
-</li>
-
-<style>
-    .todoItem {
-        margin: 15px 0;
-    }
-    label {
-        margin-left: 10px;
-    }
-    label.done {
-        text-decoration: line-through;
-    }
-    button {
-        margin-left: 15px;
-    }
-</style>
+<style src="../styles/todoItem.css"></style>
